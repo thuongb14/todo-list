@@ -51,6 +51,10 @@ side-bar {
     margin-bottom: 5px;
 }
 
+.project-list {
+    width: 100%
+}
+
 side-bar > button:hover{
     background-color: white;
     border-radius: 5px;
@@ -98,6 +102,7 @@ input {
 
 #project-form {
     display: flex;
+    width: 100%;
     flex-flow: column nowrap;
     gap: 8px;
 }
