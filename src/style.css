@@ -1,0 +1,112 @@
+body {
+    margin: 0;
+    box-sizing: border-box;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+header {
+    display: flex;
+    height: 70px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px 0 30px;
+    background-color: rgb(236, 159, 172);
+}
+.add-task-button {
+    background-color: transparent;
+    border: none;
+    padding: 10px 12px 10px 12px;
+}
+
+.add-task-button:hover {
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+}
+
+side-bar {
+    background-color: #eee;
+    height: 100vh;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    padding: 30px 50px 30px 50px;
+    gap: 1rem;
+}
+
+.inbox, .today, .add-project-button, .button-project {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    border: none;
+    padding: 8px;
+    font-size: 18px;
+    background-color: transparent;
+    margin-bottom: 5px;
+}
+
+side-bar > button:hover{
+    background-color: white;
+    border-radius: 5px;
+}
+
+.add-project-button:hover,
+.button-project:hover {
+    background-color: white;
+    border-radius: 5px;
+}
+
+#content {
+    padding: 30px 50px 30px 50px;
+}
+
+#title {
+    font-size: 40px;
+    font-weight: bold;
+}
+.project-submit-btn, .project-cancel-btn {
+    width: 70px;
+    margin: 5px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.project-submit-btn {
+    background-color: green;
+}
+
+.project-cancel-btn {
+    background-color: red;
+}
+
+input {
+    border: none;
+    height: 30px;
+    border-radius: 5px;
+    padding: 2px 5px 2px 5px;
+}
+
+#project-form {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 8px;
+}
+
+.hidden { 
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    position: absolute;
+    opacity: 0;
+}
+

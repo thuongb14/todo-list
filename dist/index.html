@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script defer src="main.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="https://bscottnz.github.io/todo/img/logo.png" alt="logo">
+        </div>
+        <button class="add-task-button"><i class="material-icons">add</i>
+        </button>
+    </header>
+
+    <main>
+        <side-bar>
+            <button class="inbox"><i class="material-icons">inbox</i>Inbox</button>
+            <button class="today"><i class="material-icons">assignment</i>Today</button>
+            <h2>Projects</h2>
+            <div class="project-list" data-project-lists>
+                <!-- <button class="button-project"><i class="material-icons">task</i>Lizzy</button> -->
+                <form class="hidden" id="project-form">
+                    <input type="text" id="project-name" name="project-name" max-length="15" placeholder="Add New Project">
+                    <div class="form-button">
+                        <input type="submit" class ="project-submit-btn" value="Submit">
+                        <input type="button" class="project-cancel-btn" value="Cancel">
+                    </div>
+                </form>
+            </div>
+            <button class="add-project-button"><i class="material-icons">add</i>Add new project</button>
+        </side-bar>
+
+        <div id="content">
+            <div id="title">Inbox</div>
+        </div>
+    </main>
+</body>
+</html>
