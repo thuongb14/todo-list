@@ -6,7 +6,7 @@ const cancelProjectBtn = document.querySelector('.project-cancel-btn');
 const projectList = document.querySelector('.project-list');
 const heading = document.querySelector('#heading')
 const buttonProject = document.querySelectorAll('.button-project')
-const taskList = document.querySelector('#task-list')
+const taskList = document.querySelector('#task-list');
 
 //in UI.js
 class UI {
@@ -51,6 +51,7 @@ class UI {
         if(buttonProject) {
             let selected = myProjects.find(item => item.id === e.target.id)
             heading.innerText = selected.title;
+            taskList.innerHTML = ''
             ui.renderTask(e)
         }
     }
@@ -58,26 +59,31 @@ class UI {
     renderTask(e) {
         if(buttonProject) {
             let selected = myProjects.find(item => item.id === e.target.id)
-            console.log(selected, selected.task)
             selected.task.forEach((task) => {
                 let li = document.createElement('li');
-                li.textContent = task;
+                li.textContent = task.todo;
                 taskList.appendChild(li)
             })
+            }
         }
 
-        //get the id of chosen list
-        //get the project of that id
-        //push the task into the inner HTMl of div content
-        }
-
+    // addTask() //use insert adjacent to ad
 }
 
 //in project.js
 class Projects {
     constructor(title, id) {
         this.title = title;
-        this.task = ['Hello', 'world'];
+        this.task = [
+            {
+                todo: 'Hello',
+                completed: false
+            },
+            {
+                todo: 'World',
+                complated: true
+            }
+        ];
         this.id = id;
     }
   
@@ -94,11 +100,13 @@ const ui = new UI();
 
 //in DOM.js
 const DOM = (() => {
+
     document.addEventListener('click', function(e) {
         const project = new Projects()
         project.deleteProjectList(e)
         ui.renderChosenProject(e)
     })
+
     projectForm.addEventListener('submit', function(e) {
         const project = new Projects()
         e.preventDefault();
