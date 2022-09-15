@@ -47,26 +47,22 @@ class UI {
         }
     }
 
-    renderChosenProject(e) {
+    renderChosenProject(e, selected) {
         if(buttonProject) {
-            let selected = myProjects.find(item => item.id === e.target.id)
+            selected = myProjects.find(item => item.id === e.target.id)
             heading.innerText = selected.title;
             taskList.innerHTML = ''
-            ui.renderTask(e)
+            ui.renderTask(selected)
         }
     }
 
-    renderTask(e) {
-        if(buttonProject) {
-            let selected = myProjects.find(item => item.id === e.target.id)
+    renderTask(selected) {
             selected.task.forEach((task) => {
                 let li = document.createElement('li');
                 li.textContent = task.todo;
                 taskList.appendChild(li)
             })
-            }
         }
-
     // addTask() //use insert adjacent to ad
 }
 
@@ -104,7 +100,7 @@ const DOM = (() => {
     document.addEventListener('click', function(e) {
         const project = new Projects()
         project.deleteProjectList(e)
-        ui.renderChosenProject(e)
+        ui.renderChosenProject(e, project)
     })
 
     projectForm.addEventListener('submit', function(e) {
