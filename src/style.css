@@ -28,7 +28,7 @@ main {
     grid-template-columns: 1fr 4fr;
 }
 
-side-bar {
+sidebar {
     background-color: #eee;
     height: 100vh;
     display: flex;
@@ -70,10 +70,11 @@ side-bar > button:hover{
     padding: 30px 50px 30px 50px;
 }
 
-#title {
+#heading {
     font-size: 40px;
     font-weight: bold;
 }
+
 .project-submit-btn, .project-cancel-btn {
     width: 70px;
     margin: 5px;
@@ -115,3 +116,22 @@ input {
     opacity: 0;
 }
 
+#content {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 2rem;
+}
+
+#task-list li {
+    background-color: rgba(255, 240, 240, 0.486);
+    padding: 1rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+    list-style-type: circle;
+    margin-bottom: 1rem;
+
+}
+
+#task-list li:hover {
+    background-color: rgb(236, 199, 205);
+}
