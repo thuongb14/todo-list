@@ -16,7 +16,6 @@ const taskForm = document.querySelector('.add-task-form')
 //in UI.js
 class UI {
     showProjectForm() {
-        ui.clearFormField()
         projectForm.classList.remove('hidden');
     }
 
@@ -64,18 +63,19 @@ class UI {
             selected.task.forEach((task) => {
                 let li = document.createElement('li');
                 let des = document.createElement('div')
-                des.classList.add('description-detail')
                 des.textContent = task.description;
                 li.textContent = task.todo;
                 li.appendChild(des)
-                taskList.appendChild(li)        
+                taskList.appendChild(li)    
+                des.classList.add('hidden')
             })
         }
 
-        //render the project again if project is deleted
 
+        //render the project again if project is deleted
     renderFolderInForm() {
         const taskFolder = document.querySelector('#task-folder')
+        taskFolder.innerHTML = `<option value="inbox">Inbox</option>`
         myProjects.forEach((item => {
             if(!taskFolder.innerHTML.includes(item.title)) {
                 taskFolder.insertAdjacentHTML('beforeend', `
@@ -87,6 +87,7 @@ class UI {
 
     showAddTaskModal(item) {
         item.classList.remove('hidden')   
+        this.renderFolderInForm()
     }
 
     removeAddTaskModal(item) {
@@ -104,7 +105,7 @@ class UI {
     }
 
     clearAddForm() {
-        taskForm.value.remove();
+        taskForm.reset()
     }
 }
 
@@ -163,6 +164,7 @@ const DOM = (() => {
     })
 
     addTaskBtn.addEventListener('click', () => {
+        ui.clearAddForm()
         ui.showAddTaskModal(modal)
         ui.showAddTaskModal(taskModal)
     })

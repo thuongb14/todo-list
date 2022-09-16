@@ -220,3 +220,11 @@ label {
     font-size: smaller;
     color:rgb(236, 87, 112)
 }
+
+#task-list li {
+    list-style-type: none;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    gap: 1rem;
+}
