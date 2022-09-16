@@ -55,7 +55,7 @@ sidebar {
     width: 100%
 }
 
-side-bar > button:hover{
+sidebar > button:hover{
     background-color: white;
     border-radius: 5px;
 }
@@ -134,4 +134,81 @@ input {
 
 #task-list li:hover {
     background-color: rgb(236, 199, 205);
+}
+
+.modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: .2s;
+    margin: 0 auto;
+    z-index: 2;
+}
+
+.add-task-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: fit-content;
+    display: flex;
+    flex-flow: column nowrap;
+    border-radius: 1rem;
+    box-shadow:rgb(46 46 46 / 20%) 0px 2px 8px 0px;
+    background-color: white;
+}
+
+.modal-header {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    background: rgb(236, 159, 172);
+    padding: 5px 1rem 5px 1rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    color: white;
+}
+
+.model-content {
+    display: flex;
+    flex-flow: column nowrap;
+    padding: 1rem;
+}
+
+.add-task-form {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+}
+
+label {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 5px;
+}
+
+.add-task-form #task-name, #task-date, #task-description{
+    border: 1px solid grey;
+}
+
+.add-task-form #task-description {
+    border-radius: 5px;
+}
+
+.add-task-form label #task-priority, 
+.add-task-form label #task-folder {
+    height: 2rem;
+}
+
+.add-task-form input[type=submit] {
+    background-color: green;
+    height: 3rem;
+    margin-top: 1rem;
+    color: white;
+    font-size: 1rem;
 }

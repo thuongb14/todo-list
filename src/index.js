@@ -7,6 +7,10 @@ const projectList = document.querySelector('.project-list');
 const heading = document.querySelector('#heading')
 const buttonProject = document.querySelectorAll('.button-project')
 const taskList = document.querySelector('#task-list');
+const addTaskBtn = document.querySelector('.add-task-button');
+const removeTaskModal = document.querySelector('.close-task')
+const modal = document.querySelector('.modal')
+const taskModal = document.querySelector('.add-task-modal')
 
 //in UI.js
 class UI {
@@ -22,9 +26,6 @@ class UI {
 
     addProject(item) {
         item.title = document.getElementById('project-name').value;
-        if(item.title === '') {
-            alert('Please fill in project name')
-        } else {
             item.id = Date.now().toString()
             projectList.insertAdjacentHTML('beforeend' , 
             `<button class="button-project" id=${item.id}>
@@ -32,7 +33,6 @@ class UI {
             <i class="fa-solid fa-xmark delete-project" style="color:red; float: right"></i></button>`)
             ui.removeProjectForm()
             myProjects.push(item)
-        }
     }
 
     clearFormField() {
@@ -41,9 +41,11 @@ class UI {
 
     deleteProject(e) {
         if(e.target.classList.contains('delete-project')) {
-            e.target.parentElement.remove()
-            heading.innerHTML = '';
-            taskList.innerHTML = ''
+            if (confirm('Are you sure to remove this project?')) {
+                e.target.parentElement.remove()
+                heading.innerHTML = '';
+                taskList.innerHTML = ''
+            }
         }
     }
 
@@ -63,6 +65,24 @@ class UI {
                 taskList.appendChild(li)
             })
         }
+
+    showAddTaskModal(item) {
+        const taskFolder = document.querySelector('#task-folder')
+        myProjects.forEach((item => {
+            if(!taskFolder.innerHTML.includes(item.title)) {
+                taskFolder.insertAdjacentHTML('beforeend', `
+                <option value="${item.title}">${item.title}</option>
+                `)
+            }
+        }))
+
+        item.classList.remove('hidden')       
+    }
+
+    removeAddTaskModal(item) {
+        item.classList.add('hidden')
+    }
+
     // addTask() //use insert adjacent to ad
 }
 
@@ -101,6 +121,16 @@ const DOM = (() => {
         const project = new Projects()
         project.deleteProjectList(e)
         ui.renderChosenProject(e, project)
+    })
+
+    addTaskBtn.addEventListener('click', () => {
+        ui.showAddTaskModal(modal)
+        ui.showAddTaskModal(taskModal)
+    })
+
+    removeTaskModal.addEventListener('click', () => {
+        ui.removeAddTaskModal(modal)
+        ui.removeAddTaskModal(taskModal)
     })
 
     projectForm.addEventListener('submit', function(e) {
