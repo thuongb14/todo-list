@@ -117,15 +117,15 @@ class UI {
 //in project.js
 class Projects {
     constructor(title, id) {
-        this.title = title;
+        this.title = title,
         this.task = [
             // {
             //     todo: 'Hello',
             //     description: 'bla bla',
             //     completed: false
             // }
-        ];
-        this.id = id;
+        ],
+        this.id = id
     }
   
     deleteProjectList(e) {
@@ -136,8 +136,10 @@ class Projects {
 }
 
 class Tasks {
-    constructor () {
-        this.task = []
+    constructor (todo, description, completed) {
+        this.todo = todo,
+        this.description = description,
+        this.completed = completed
     }
 
     addTask(project, task) {
@@ -146,13 +148,29 @@ class Tasks {
         const folder = document.querySelector('#task-folder').value;
         task.todo = taskName;
         task.description = taskDes;
-        task.completed = false;
+        task.completed = true;
         project = myProjects.find(item => item.title === folder) //return the name of project
         project.task.push(task)
         if(heading.textContent === folder) {
             ui.addnewTask(task)
         }
     } 
+
+    //last check work
+    toggleCompleted(selected, e) {
+        selected = myProjects.find(item => item.title === heading.textContent);
+        let selectedTask = selected.task
+        selectedTask.forEach((item) => {
+            if(e.target.classList.contains('fa-circle') && item.todo === e.target.parentElement.textContent) {
+                if(item.completed === true) {
+                    item.completed = false;
+                } else if(item.completed === false) {
+                    item.completed = true;
+                }
+                console.log(myProjects)
+            }
+        })
+    }
 }
 
 
@@ -166,7 +184,9 @@ const DOM = (() => {
     //control click of delete project
     document.addEventListener('click', function(e) {
         const project = new Projects()
+        const task = new Tasks()
         project.deleteProjectList(e)
+        task.toggleCompleted(task, e)
     })
 
     //control add task button
