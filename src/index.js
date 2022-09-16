@@ -1,5 +1,6 @@
 import './style.css';
 
+//global dom
 const addProject = document.querySelector('.add-project-button');
 const projectForm = document.querySelector("#project-form");
 const cancelProjectBtn = document.querySelector('.project-cancel-btn');
@@ -24,6 +25,7 @@ class UI {
         projectForm.classList.add('hidden');
     }
 
+    //add project to ui
     addProject(item) {
         item.title = document.getElementById('project-name').value;
             item.id = Date.now().toString()
@@ -39,6 +41,7 @@ class UI {
         document.getElementById('project-name').value = '';
     }
 
+    //delete project in ui
     deleteProject(e) {
         if(e.target.classList.contains('delete-project')) {
             if (confirm('Are you sure to remove this project?')) {
@@ -49,6 +52,7 @@ class UI {
         }
     }
 
+    //render the selected project to title
     renderChosenProject(e, selected) {
         if(buttonProject) {
             selected = myProjects.find(item => item.id === e.target.id)
@@ -58,21 +62,21 @@ class UI {
         }
     }
 
+    //render task of chosen project to task list ui
     renderTask(selected) {
             selected.title = heading.innerText
             selected.task.forEach((task) => {
                 let li = document.createElement('li');
                 let des = document.createElement('div')
                 des.textContent = task.description;
-                li.textContent = task.todo;
+                li.innerHTML = `<i class="fa-regular fa-circle"></i>${task.todo}`;
                 li.appendChild(des)
                 taskList.appendChild(li)    
                 des.classList.add('hidden')
             })
         }
 
-
-        //render the project again if project is deleted
+    //render the project list in form again if project is deleted
     renderFolderInForm() {
         const taskFolder = document.querySelector('#task-folder')
         taskFolder.innerHTML = `<option value="inbox">Inbox</option>`
@@ -85,6 +89,7 @@ class UI {
         }))
     }
 
+    //pop up and remove addtaskmodal
     showAddTaskModal(item) {
         item.classList.remove('hidden')   
         this.renderFolderInForm()
@@ -99,7 +104,7 @@ class UI {
         let des = document.createElement('div')
         des.classList.add('description-detail')
         des.textContent = task.description;
-        li.textContent = task.todo;
+        li.innerHTML = `<i class="fa-regular fa-circle"></i>${task.todo}`;
         li.appendChild(des)
         taskList.appendChild(li) 
     }
@@ -158,11 +163,13 @@ const ui = new UI();
 //in DOM.js
 const DOM = (() => {
 
+    //control click of delete project
     document.addEventListener('click', function(e) {
         const project = new Projects()
         project.deleteProjectList(e)
     })
 
+    //control add task button
     addTaskBtn.addEventListener('click', () => {
         ui.clearAddForm()
         ui.showAddTaskModal(modal)
@@ -173,11 +180,13 @@ const DOM = (() => {
         ui.removeAddTaskModal(modal)
     })
 
+    //control click of project and render it
     projectList.addEventListener('click', function(e) {
         const project = new Projects()
         ui.renderChosenProject(e, project)
     })
 
+    //control task form
     taskForm.addEventListener('submit', function(e) {
         const project = new Projects();
         const task = new Tasks();
@@ -187,6 +196,7 @@ const DOM = (() => {
         ui.clearAddForm()
     })
     
+    //control the project
     projectForm.addEventListener('submit', function(e) {
         const project = new Projects()
         e.preventDefault();
