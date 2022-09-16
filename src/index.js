@@ -8,9 +8,10 @@ const heading = document.querySelector('#heading')
 const buttonProject = document.querySelectorAll('.button-project')
 const taskList = document.querySelector('#task-list');
 const addTaskBtn = document.querySelector('.add-task-button');
-const removeTaskModal = document.querySelector('.close-task')
-const modal = document.querySelector('.modal')
-const taskModal = document.querySelector('.add-task-modal')
+const removeTaskModal = document.querySelector('.close-task');
+const modal = document.querySelector('.modal');
+const taskModal = document.querySelector('.add-task-modal');
+const taskForm = document.querySelector('.add-task-form')
 
 //in UI.js
 class UI {
@@ -59,14 +60,21 @@ class UI {
     }
 
     renderTask(selected) {
+            selected.title = heading.innerText
             selected.task.forEach((task) => {
                 let li = document.createElement('li');
+                let des = document.createElement('div')
+                des.classList.add('description-detail')
+                des.textContent = task.description;
                 li.textContent = task.todo;
-                taskList.appendChild(li)
+                li.appendChild(des)
+                taskList.appendChild(li)        
             })
         }
 
-    showAddTaskModal(item) {
+        //render the project again if project is deleted
+
+    renderFolderInForm() {
         const taskFolder = document.querySelector('#task-folder')
         myProjects.forEach((item => {
             if(!taskFolder.innerHTML.includes(item.title)) {
@@ -75,15 +83,29 @@ class UI {
                 `)
             }
         }))
+    }
 
-        item.classList.remove('hidden')       
+    showAddTaskModal(item) {
+        item.classList.remove('hidden')   
     }
 
     removeAddTaskModal(item) {
         item.classList.add('hidden')
     }
 
-    // addTask() //use insert adjacent to ad
+    addnewTask(task) {
+        let li = document.createElement('li');
+        let des = document.createElement('div')
+        des.classList.add('description-detail')
+        des.textContent = task.description;
+        li.textContent = task.todo;
+        li.appendChild(des)
+        taskList.appendChild(li) 
+    }
+
+    clearAddForm() {
+        taskForm.value.remove();
+    }
 }
 
 //in project.js
@@ -91,14 +113,11 @@ class Projects {
     constructor(title, id) {
         this.title = title;
         this.task = [
-            {
-                todo: 'Hello',
-                completed: false
-            },
-            {
-                todo: 'World',
-                complated: true
-            }
+            // {
+            //     todo: 'Hello',
+            //     description: 'bla bla',
+            //     completed: false
+            // }
         ];
         this.id = id;
     }
@@ -110,6 +129,27 @@ class Projects {
   }
 }
 
+class Tasks {
+    constructor () {
+        this.task = []
+    }
+
+    addTask(project, task) {
+        const taskName = document.querySelector('#task-name').value;
+        const taskDes = document.querySelector('#task-description').value;
+        const folder = document.querySelector('#task-folder').value;
+        task.todo = taskName;
+        task.description = taskDes;
+        task.completed = false;
+        project = myProjects.find(item => item.title === folder) //return the name of project
+        project.task.push(task)
+        if(heading.textContent === folder) {
+            ui.addnewTask(task)
+        }
+    } 
+}
+
+
 let myProjects = []
 
 const ui = new UI();
@@ -120,7 +160,6 @@ const DOM = (() => {
     document.addEventListener('click', function(e) {
         const project = new Projects()
         project.deleteProjectList(e)
-        ui.renderChosenProject(e, project)
     })
 
     addTaskBtn.addEventListener('click', () => {
@@ -130,9 +169,22 @@ const DOM = (() => {
 
     removeTaskModal.addEventListener('click', () => {
         ui.removeAddTaskModal(modal)
-        ui.removeAddTaskModal(taskModal)
     })
 
+    projectList.addEventListener('click', function(e) {
+        const project = new Projects()
+        ui.renderChosenProject(e, project)
+    })
+
+    taskForm.addEventListener('submit', function(e) {
+        const project = new Projects();
+        const task = new Tasks();
+        e.preventDefault()
+        task.addTask(project, task)
+        ui.removeAddTaskModal(modal);
+        ui.clearAddForm()
+    })
+    
     projectForm.addEventListener('submit', function(e) {
         const project = new Projects()
         e.preventDefault();

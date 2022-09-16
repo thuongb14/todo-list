@@ -67,12 +67,15 @@ sidebar > button:hover{
 }
 
 #content {
+    margin: 0 auto;
+    width: 70%;
     padding: 30px 50px 30px 50px;
 }
 
 #heading {
     font-size: 40px;
     font-weight: bold;
+    padding: 0;
 }
 
 .project-submit-btn, .project-cancel-btn {
@@ -211,4 +214,9 @@ label {
     margin-top: 1rem;
     color: white;
     font-size: 1rem;
+}
+.description-detail {
+    padding-top: 10px;
+    font-size: smaller;
+    color:rgb(236, 87, 112)
 }
