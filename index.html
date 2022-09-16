@@ -26,7 +26,7 @@
                 
             </div>
             <form class="hidden" id="project-form">
-                <input type="text" id="project-name" name="project-name" max-length="15" placeholder="Add New Project">
+                <input type="text" id="project-name" name="project-name" max-length="15" placeholder="Add New Project" required>
                 <div class="form-button">
                     <input type="submit" class ="project-submit-btn" value="Submit">
                     <input type="button" class="project-cancel-btn" value="Cancel">
@@ -41,8 +41,41 @@
             </div>
 
         </div>
-    </main>
 
+    </main>
+    <div class="modal hidden">
+        <div class="add-task-modal hidden">
+            <div class="modal-header">
+                <h2>Add Task</h2>
+                <i class="fa-solid fa-close fa-2x fa-fw close-task"></i>
+            </div>
+            <div class="model-content">
+                <form class="add-task-form" action="get">
+                    <label for="task-name">Title
+                        <input type="text" name="task-name" id="task-name" required>
+                    </label>
+                    <label for="task-description">Description
+                        <textarea name="task-description" id="task-description" cols="max-length" rows="8"></textarea>
+                    </label>
+                    <label for="task-date">Due Date
+                        <input type="date" name="task-date" id="task-date">
+                    </label>
+                    <label for="task-folder">Folder
+                        <select id="task-folder" name="task-folder">
+                          <option value="inbox">Inbox</option>
+                        </select>
+                    <label for="task-priority">Priority
+                        <select id="task-priority" name="task-priority">
+                          <option value="low">Low</option>
+                          <option value="medium">Medium</option>
+                          <option value="high">High</option>
+                        </select>
+                    </label>
+                    <input type="submit" class="submit-task" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
     <script src="https://kit.fontawesome.com/4dccacf12f.js" crossorigin="anonymous"></script>
 </body>
 </html>
