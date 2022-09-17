@@ -229,3 +229,11 @@ label {
     gap: 1rem;
 }
 
+.fa-circle {
+    color: red;
+}
+
+.fa-circle-check {
+    color: green;
+}
+

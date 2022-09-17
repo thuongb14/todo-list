@@ -104,7 +104,7 @@ class UI {
         let des = document.createElement('div')
         des.classList.add('description-detail')
         des.textContent = task.description;
-        li.innerHTML = `<i class="fa-regular fa-circle"></i>${task.todo}`;
+        li.innerHTML = `<i class="task-status fa-regular fa-circle"></i>${task.todo}`;
         li.appendChild(des)
         taskList.appendChild(li) 
     }
@@ -161,13 +161,15 @@ class Tasks {
         selected = myProjects.find(item => item.title === heading.textContent);
         let selectedTask = selected.task
         selectedTask.forEach((item) => {
-            if(e.target.classList.contains('fa-circle') && item.todo === e.target.parentElement.textContent) {
-                if(item.completed === true) {
+            if (e.target.classList.contains('task-status') && item.todo === e.target.parentElement.textContent) {
+                while (item.completed === true) {
                     item.completed = false;
-                } else if(item.completed === false) {
+                    e.target.setAttribute('class', 'task-status fa-regular fa-circle')
+                } while (item.completed === false) {
                     item.completed = true;
+                    e.target.setAttribute('class', 'task-status fa-regular fa-circle-check')
                 }
-                console.log(myProjects)
+                console.log(item)
             }
         })
     }
@@ -215,7 +217,7 @@ const DOM = (() => {
         ui.removeAddTaskModal(modal);
         ui.clearAddForm()
     })
-    
+
     //control the project
     projectForm.addEventListener('submit', function(e) {
         const project = new Projects()
