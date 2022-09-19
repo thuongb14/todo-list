@@ -1,12 +1,18 @@
 import './style.css';
 
+//do delete task button, dropbutton to show description and date
+
+//render every uncompleted task into Inbox
+
+//render every task that due today into Today
+
+
 //global dom
 const addProject = document.querySelector('.add-project-button');
 const projectForm = document.querySelector("#project-form");
 const cancelProjectBtn = document.querySelector('.project-cancel-btn');
 const projectList = document.querySelector('.project-list');
 const heading = document.querySelector('#heading')
-const buttonProject = document.querySelectorAll('.button-project')
 const taskList = document.querySelector('#task-list');
 const addTaskBtn = document.querySelector('.add-task-button');
 const removeTaskModal = document.querySelector('.close-task');
@@ -18,12 +24,12 @@ const taskForm = document.querySelector('.add-task-form')
 class UI {
     showProjectForm() {
         projectForm.classList.remove('hidden');
-    }
+    };
 
     removeProjectForm() {
         ui.clearFormField()
         projectForm.classList.add('hidden');
-    }
+    };
 
     //add project to ui
     addProject(item) {
@@ -35,11 +41,12 @@ class UI {
             <i class="fa-solid fa-xmark delete-project" style="color:red; float: right"></i></button>`)
             ui.removeProjectForm()
             myProjects.push(item)
-    }
+            ui.renderFolderInForm
+    };
 
     clearFormField() {
         document.getElementById('project-name').value = '';
-    }
+    };
 
     //delete project in ui
     deleteProject(e) {
@@ -50,17 +57,16 @@ class UI {
                 taskList.innerHTML = ''
             }
         }
-    }
+    };
 
     //render the selected project to title
     renderChosenProject(e, selected) {
-        if(buttonProject) {
-            selected = myProjects.find(item => item.id === e.target.id)
-            heading.innerText = selected.title;
-            taskList.innerHTML = ''
-            ui.renderTask(selected)
-        }
-    }
+        selected = myProjects.find(item => item.id === e.target.id)
+        console.log(selected)
+        heading.innerText = selected.title;
+        taskList.innerHTML = ''
+        ui.renderTask(selected)
+    };
 
     //render task of chosen project to task list ui
     renderTask(selected) {
@@ -69,12 +75,18 @@ class UI {
                 let li = document.createElement('li');
                 let des = document.createElement('div')
                 des.textContent = task.description;
-                li.innerHTML = `<i class="fa-regular fa-circle"></i>${task.todo}`;
+                if(task.completed === false) {
+                    li.setAttribute('class', '')
+                    li.innerHTML = `<i class="task-status fa-regular fa-circle"></i>${task.todo}`;
+                } else if(task.completed == true) {
+                    li.setAttribute('class', 'checked')
+                    li.innerHTML = `<i class="task-status fa-regular fa-circle-check"></i>${task.todo}`;
+                }
                 li.appendChild(des)
                 taskList.appendChild(li)    
                 des.classList.add('hidden')
             })
-        }
+        };
 
     //render the project list in form again if project is deleted
     renderFolderInForm() {
@@ -87,37 +99,78 @@ class UI {
                 `)
             }
         }))
-    }
+    };
 
     //pop up and remove addtaskmodal
     showAddTaskModal(item) {
         item.classList.remove('hidden')   
         this.renderFolderInForm()
-    }
+    };
 
     removeAddTaskModal(item) {
         item.classList.add('hidden')
-    }
+    };
 
     addnewTask(task) {
         let li = document.createElement('li');
-        let des = document.createElement('div')
-        des.classList.add('description-detail')
-        des.textContent = task.description;
-        li.innerHTML = `<i class="task-status fa-regular fa-circle"></i>${task.todo}`;
-        li.appendChild(des)
+        li.setAttribute('class', '')
+        li.innerHTML = 
+        `<div class="task-detail">
+            <div class="task">
+                <i class="task-status fa-regular fa-circle"></i>
+                <div class="task-name">${task.todo}</div>
+            </div>
+            <div class="icon-control">
+                <i class="fa-solid fa-caret-left"></i>
+                <i class="remove-task fa-solid fa-xmark"></i>
+            </div>
+            </div>
+
+            <div class="description-detail">
+                <div class="description">${task.description}</div>
+                <div class="date">Due Date: 
+            </div>
+        </div>`    
         taskList.appendChild(li) 
-    }
+    };
 
     clearAddForm() {
         taskForm.reset()
+    };
+
+    toggleCompleted(selected, e) {
+        if (e.target.classList.contains('task-status')) {
+            selected = myProjects.find(item => item.title === heading.textContent);
+            let selectedTask = selected.task
+            selectedTask.forEach((item) => {
+                if (item.completed === true && item.todo === e.target.nextElementSibling.textContent) {
+                        item.completed = false;
+                        e.target.setAttribute('class', 'task-status fa-regular fa-circle');
+                        e.target.nextElementSibling.setAttribute('class', '')
+                    } else if (item.completed === false && item.todo === e.target.nextElementSibling.textContent) {
+                        item.completed = true;
+                        e.target.setAttribute('class', 'task-status fa-regular fa-circle-check')
+                        e.target.nextElementSibling.setAttribute('class', 'checked')
+                    }
+                })
+        }
+
+    };
+
+    removeTask(selected, e) {
+        if (e.target.classList.contains('remove-task')) {
+            let project = myProjects.find(item => item.title === heading.textContent);
+            selected = project.task; //return an array of task
+            console.log(selected)
+        }
+
     }
+
 }
 
 //in project.js
 class Projects {
-    constructor(title, id) {
-        this.title = title,
+    constructor(id){
         this.task = [
             // {
             //     todo: 'Hello',
@@ -142,39 +195,25 @@ class Tasks {
         this.completed = completed
     }
 
+    //add task in logic
     addTask(project, task) {
         const taskName = document.querySelector('#task-name').value;
         const taskDes = document.querySelector('#task-description').value;
         const folder = document.querySelector('#task-folder').value;
         task.todo = taskName;
         task.description = taskDes;
-        task.completed = true;
+        task.completed = false;
         project = myProjects.find(item => item.title === folder) //return the name of project
         project.task.push(task)
+
+        //if task.completed = false => inbox.push(task).
+        //if click on inbox => heading.textContent = inbox
+        //heading.textContent === inbox => li = content in inbox array
         if(heading.textContent === folder) {
             ui.addnewTask(task)
         }
     } 
-
-    //last check work
-    toggleCompleted(selected, e) {
-        selected = myProjects.find(item => item.title === heading.textContent);
-        let selectedTask = selected.task
-        selectedTask.forEach((item) => {
-            if (e.target.classList.contains('task-status') && item.todo === e.target.parentElement.textContent) {
-                while (item.completed === true) {
-                    item.completed = false;
-                    e.target.setAttribute('class', 'task-status fa-regular fa-circle')
-                } while (item.completed === false) {
-                    item.completed = true;
-                    e.target.setAttribute('class', 'task-status fa-regular fa-circle-check')
-                }
-                console.log(item)
-            }
-        })
-    }
 }
-
 
 let myProjects = []
 
@@ -188,7 +227,7 @@ const DOM = (() => {
         const project = new Projects()
         const task = new Tasks()
         project.deleteProjectList(e)
-        task.toggleCompleted(task, e)
+        ui.toggleCompleted(task, e)
     })
 
     //control add task button
@@ -216,6 +255,13 @@ const DOM = (() => {
         task.addTask(project, task)
         ui.removeAddTaskModal(modal);
         ui.clearAddForm()
+    })
+
+
+    //control the task list
+    taskList.addEventListener('click', function(e) {
+        const task = new Tasks();
+        ui.removeTask(task, e)
     })
 
     //control the project

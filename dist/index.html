@@ -26,7 +26,7 @@
                 
             </div>
             <form class="hidden" id="project-form">
-                <input type="text" id="project-name" name="project-name" max-length="15" placeholder="Add New Project" required>
+                <input type="text" id="project-name" name="project-name" min-length="2" max-length="15" placeholder="Add New Project" required>
                 <div class="form-button">
                     <input type="submit" class ="project-submit-btn" value="Submit">
                     <input type="button" class="project-cancel-btn" value="Cancel">
@@ -38,7 +38,23 @@
         <div id="content">
             <div id="heading"></div>
             <div id="task-list">
-                
+                <!-- <li>
+                    <div class="task-detail">
+                        <div class="task">
+                            <i class="task-status fa-regular fa-circle"></i>
+                            <div class="task-name">${task.todo}</div>
+                        </div>
+                        <div class="icon-control">
+                            <i class="fa-solid fa-caret-down"></i>
+                            <i class="remove-task fa-solid fa-xmark"></i>
+                        </div>
+                    </div>
+
+                    <div class="description-detail">
+                        <div class="description">Hello</div>
+                        <div class="date">Due Date: 30/2/2002</div>
+                    </div>
+                </li> -->
             </div>
 
         </div>

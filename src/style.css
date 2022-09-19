@@ -224,8 +224,8 @@ label {
 #task-list li {
     list-style-type: none;
     display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
+    flex-flow: column nowrap;
+    align-items: flex-start;
     gap: 1rem;
 }
 
@@ -235,5 +235,27 @@ label {
 
 .fa-circle-check {
     color: green;
+}
+
+.checked {
+    text-decoration: line-through;
+}
+
+.task-detail {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.task {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 10px;
+}
+
+.icon-control {
+    display: flex;
+    gap: 10px;
 }
 
