@@ -110,6 +110,7 @@ class UI {
     //render the project list in form again if project is deleted
     renderFolderInForm() {
         const taskFolder = document.querySelector('#task-folder')
+        taskFolder.innerHTML = ''
         myProjects.forEach((item => {
             if(!taskFolder.innerHTML.includes(item.title)) {
                 taskFolder.insertAdjacentHTML('beforeend', `
