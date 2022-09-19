@@ -1,12 +1,5 @@
 import './style.css';
 
-//do delete task button, dropbutton to show description and date
-
-//render every uncompleted task into Inbox
-
-//render every task that due today into Today
-
-
 //global dom
 const addProject = document.querySelector('.add-project-button');
 const projectForm = document.querySelector("#project-form");
@@ -19,8 +12,8 @@ const removeTaskModal = document.querySelector('.close-task');
 const modal = document.querySelector('.modal');
 const taskModal = document.querySelector('.add-task-modal');
 const taskForm = document.querySelector('.add-task-form')
+const inbox = document.querySelector('.inbox')
 
-//in UI.js
 class UI {
     showProjectForm() {
         projectForm.classList.remove('hidden');
@@ -86,9 +79,9 @@ class UI {
                         </div>
                         </div>
             
-                        <div class="description-detail">
+                        <div class="description-detail hidden">
                             <div class="description">${task.description}</div>
-                            <div class="date">Due Date: 
+                            <div class="date">${task.date}
                         </div>
                     </div>`    
                 } else if(task.completed == true) {
@@ -104,9 +97,9 @@ class UI {
                         </div>
                         </div>
             
-                        <div class="description-detail">
+                        <div class="description-detail hidden">
                             <div class="description">${task.description}</div>
-                            <div class="date">Due Date: 
+                            <div class="date">${task.date}
                         </div>
                     </div>`    
                 }
@@ -153,9 +146,9 @@ class UI {
             </div>
             </div>
 
-            <div class="description-detail">
+            <div id="${task.todo}" class="description-detail hidden">
                 <div class="description">${task.description}</div>
-                <div class="date">Due Date: 
+                <div class="date">Due date: ${task.date}
             </div>
         </div>`    
         taskList.appendChild(li) 
@@ -184,44 +177,97 @@ class UI {
 
     };
 
+    showTaskDropDown(selected,e) {
+        if(e.target.classList.contains('fa-caret-left')) {
+            let project = myProjects.find(item => item.title === heading.textContent);
+            selected = project.task;
+            selected.forEach((task) => {
+                if(task.todo === e.target.id) {
+                    e.target.classList = 'fa-solid fa-caret-down'
+                    let desDiv = e.target.parentElement.parentElement.nextElementSibling;
+                    desDiv.classList.remove('hidden')
+                }
+            })
+        } else if(e.target.classList.contains('fa-caret-down')) {
+            let project = myProjects.find(item => item.title === heading.textContent);
+            selected = project.task;
+            selected.forEach((task) => {
+                if(task.todo === e.target.id) {
+                    e.target.classList = 'fa-solid fa-caret-left'
+                    let desDiv = e.target.parentElement.parentElement.nextElementSibling;
+                    desDiv.classList.add('hidden')
+                }
+            })
+        }
+    }
+
+    showInboxTask() {
+        heading.textContent = 'Inbox';
+        taskList.innerHTML = ''
+        myProjects.forEach((project)=> {
+            let task = project.task;
+            console.log(task)
+            task.forEach((item)=>{
+                if(!item.completed) {
+                    let li = document.createElement('li');
+                        li.setAttribute('class', '')
+                        li.innerHTML = 
+                        `<div class="task-detail">
+                            <div class="task">
+                                <i class="task-status fa-regular fa-circle"></i>
+                                <div class="task-name">${item.todo}</div>
+                            </div>
+                            <div class="icon-control">
+                                <i id="${item.todo}" class="fa-solid fa-caret-left"></i>
+                                <i id="${itemtodo}" class="remove-task fa-solid fa-xmark"></i>
+                            </div>
+                            </div>
+
+                            <div id="${item.todo}" class="description-detail hidden">
+                                <div class="description">${item.description}</div>
+                                <div class="date">Due date: ${item.date}
+                            </div>
+                        </div>`    
+                    taskList.appendChild(li) 
+                }
+            })
+
+        })
+    }
 
 }
 
-//in project.js
 class Projects {
     constructor(id){
-        this.task = [
-            // {
-            //     todo: 'Hello',
-            //     description: 'bla bla',
-            //     completed: false
-            // }
-        ],
+        this.task = [],
         this.id = id
-    }
+    };
   
     deleteProjectList(e) {
     const selected = e.target.parentElement.id;
     myProjects = myProjects.filter(item => item.id !== selected)
     ui.deleteProject(e)
-  }
+  };
 }
 
 class Tasks {
-    constructor (todo, description, completed) {
+    constructor (todo, description, completed, date) {
         this.todo = todo,
         this.description = description,
         this.completed = completed
-    }
+        this.date = date
+    };
 
     //add task in logic
     addTask(project, task) {
         const taskName = document.querySelector('#task-name').value;
         const taskDes = document.querySelector('#task-description').value;
+        const taskDate = document.querySelector('#task-date').value
         const folder = document.querySelector('#task-folder').value;
         task.todo = taskName;
         task.description = taskDes;
         task.completed = false;
+        task.date = taskDate
         project = myProjects.find(item => item.title === folder) //return the name of project
         project.task.push(task)
 
@@ -231,7 +277,7 @@ class Tasks {
         if(heading.textContent === folder) {
             ui.addnewTask(task)
         }
-    }
+    };
     
     removeTask(selected, e) {
         if (e.target.classList.contains('remove-task')) {
@@ -244,11 +290,10 @@ class Tasks {
                 }
             })
         }
-
-    } 
+    };
 }
 
-let myProjects = []
+let myProjects = [];
 
 const ui = new UI();
 
@@ -261,24 +306,24 @@ const DOM = (() => {
         const task = new Tasks()
         project.deleteProjectList(e)
         ui.toggleCompleted(task, e)
-    })
+    });
 
     //control add task button
     addTaskBtn.addEventListener('click', () => {
         ui.clearAddForm()
         ui.showAddTaskModal(modal)
         ui.showAddTaskModal(taskModal)
-    })
+    });
 
     removeTaskModal.addEventListener('click', () => {
         ui.removeAddTaskModal(modal)
-    })
+    });
 
     //control click of project and render it
     projectList.addEventListener('click', function(e) {
         const project = new Projects()
         ui.renderChosenProject(e, project)
-    })
+    });
 
     //control task form
     taskForm.addEventListener('submit', function(e) {
@@ -288,26 +333,26 @@ const DOM = (() => {
         task.addTask(project, task)
         ui.removeAddTaskModal(modal);
         ui.clearAddForm()
-    })
+    });
 
 
-    //control the task list
+    //control the task list icon
     taskList.addEventListener('click', function(e) {
         const task = new Tasks();
         task.removeTask(task, e)
-    })
+        ui.showTaskDropDown(task, e)
+    });
 
     //control the project
     projectForm.addEventListener('submit', function(e) {
         const project = new Projects()
         e.preventDefault();
         ui.addProject(project)
-    })
+    });
 
     addProject.addEventListener('click', ui.showProjectForm);
 
-    cancelProjectBtn.addEventListener('click', ui.removeProjectForm)
-
+    cancelProjectBtn.addEventListener('click', ui.removeProjectForm);
 })();
 
 

@@ -259,3 +259,6 @@ label {
     gap: 10px;
 }
 
+.fa-xmark {
+    color: red;
+}

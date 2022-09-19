@@ -19,11 +19,8 @@
 
     <main>
         <sidebar>
-            <button class="inbox"><i class="fa-solid fa-inbox"></i>Inbox</button>
-            <button class="today"><i class="fa-solid fa-calendar"></i>Today</button>
             <h2>Projects</h2>
             <div class="project-list" data-project-lists>
-                
             </div>
             <form class="hidden" id="project-form">
                 <input type="text" id="project-name" name="project-name" min-length="2" max-length="15" placeholder="Add New Project" required>
@@ -38,23 +35,7 @@
         <div id="content">
             <div id="heading"></div>
             <div id="task-list">
-                <!-- <li>
-                    <div class="task-detail">
-                        <div class="task">
-                            <i class="task-status fa-regular fa-circle"></i>
-                            <div class="task-name">${task.todo}</div>
-                        </div>
-                        <div class="icon-control">
-                            <i class="fa-solid fa-caret-down"></i>
-                            <i class="remove-task fa-solid fa-xmark"></i>
-                        </div>
-                    </div>
 
-                    <div class="description-detail">
-                        <div class="description">Hello</div>
-                        <div class="date">Due Date: 30/2/2002</div>
-                    </div>
-                </li> -->
             </div>
 
         </div>
@@ -68,18 +49,18 @@
             </div>
             <div class="model-content">
                 <form class="add-task-form">
-                    <label for="task-name">Title
+                    <label for="task-name">Title*
                         <input type="text" name="task-name" id="task-name" required>
                     </label>
                     <label for="task-description">Description
                         <textarea name="task-description" id="task-description" cols="max-length" rows="8"></textarea>
                     </label>
-                    <label for="task-date">Due Date
-                        <input type="date" name="task-date" id="task-date">
+                    <label for="task-date">Due Date*
+                        <input type="date" name="task-date" id="task-date" required>
                     </label>
-                    <label for="task-folder">Folder
+                    <label for="task-folder">Folder*
                         <select id="task-folder" name="task-folder">
-                          <option value="inbox">Inbox</option>
+                          
                         </select>
                     </label>
                     <input type="submit" class="submit-task" value="Submit">
