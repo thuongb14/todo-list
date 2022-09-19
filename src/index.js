@@ -73,19 +73,46 @@ class UI {
             selected.title = heading.innerText
             selected.task.forEach((task) => {
                 let li = document.createElement('li');
-                let des = document.createElement('div')
-                des.textContent = task.description;
-                if(task.completed === false) {
-                    li.setAttribute('class', '')
-                    li.innerHTML = `<i class="task-status fa-regular fa-circle"></i>${task.todo}`;
+                if(task.completed == false) {
+                    li.innerHTML = 
+                    `<div class="task-detail">
+                        <div class="task">
+                            <i class="task-status fa-regular fa-circle"></i>
+                            <div class="task-name">${task.todo}</div>
+                        </div>
+                        <div class="icon-control">
+                            <i id="${task.todo}" class="fa-solid fa-caret-left"></i>
+                            <i id="${task.todo}" class="remove-task fa-solid fa-xmark"></i>
+                        </div>
+                        </div>
+            
+                        <div class="description-detail">
+                            <div class="description">${task.description}</div>
+                            <div class="date">Due Date: 
+                        </div>
+                    </div>`    
                 } else if(task.completed == true) {
-                    li.setAttribute('class', 'checked')
-                    li.innerHTML = `<i class="task-status fa-regular fa-circle-check"></i>${task.todo}`;
+                    li.innerHTML = 
+                    `<div class="task-detail">
+                        <div class="task">
+                            <i class="task-status fa-regular fa-circle-check"></i>
+                            <div class="task-name checked">${task.todo}</div>
+                        </div>
+                        <div class="icon-control">
+                            <i id="${task.todo}" class="fa-solid fa-caret-left"></i>
+                            <i id="${task.todo}" class="remove-task fa-solid fa-xmark"></i>
+                        </div>
+                        </div>
+            
+                        <div class="description-detail">
+                            <div class="description">${task.description}</div>
+                            <div class="date">Due Date: 
+                        </div>
+                    </div>`    
                 }
-                li.appendChild(des)
                 taskList.appendChild(li)    
-                des.classList.add('hidden')
             })
+            
         };
 
     //render the project list in form again if project is deleted
@@ -121,8 +148,8 @@ class UI {
                 <div class="task-name">${task.todo}</div>
             </div>
             <div class="icon-control">
-                <i class="fa-solid fa-caret-left"></i>
-                <i class="remove-task fa-solid fa-xmark"></i>
+                <i id="${task.todo}" class="fa-solid fa-caret-left"></i>
+                <i id="${task.todo}" class="remove-task fa-solid fa-xmark"></i>
             </div>
             </div>
 
@@ -157,14 +184,6 @@ class UI {
 
     };
 
-    removeTask(selected, e) {
-        if (e.target.classList.contains('remove-task')) {
-            let project = myProjects.find(item => item.title === heading.textContent);
-            selected = project.task; //return an array of task
-            console.log(selected)
-        }
-
-    }
 
 }
 
@@ -212,6 +231,20 @@ class Tasks {
         if(heading.textContent === folder) {
             ui.addnewTask(task)
         }
+    }
+    
+    removeTask(selected, e) {
+        if (e.target.classList.contains('remove-task')) {
+            let project = myProjects.find(item => item.title === heading.textContent);
+            selected = project.task;
+            selected.forEach((task) => {
+                if(task.todo === e.target.id) {
+                    e.target.parentElement.parentElement.parentElement.remove();
+                    selected.splice(selected.indexOf(task))
+                }
+            })
+        }
+
     } 
 }
 
@@ -261,7 +294,7 @@ const DOM = (() => {
     //control the task list
     taskList.addEventListener('click', function(e) {
         const task = new Tasks();
-        ui.removeTask(task, e)
+        task.removeTask(task, e)
     })
 
     //control the project
