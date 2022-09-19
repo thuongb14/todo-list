@@ -12,7 +12,6 @@ const removeTaskModal = document.querySelector('.close-task');
 const modal = document.querySelector('.modal');
 const taskModal = document.querySelector('.add-task-modal');
 const taskForm = document.querySelector('.add-task-form')
-const inbox = document.querySelector('.inbox')
 
 class UI {
     showProjectForm() {
@@ -111,7 +110,6 @@ class UI {
     //render the project list in form again if project is deleted
     renderFolderInForm() {
         const taskFolder = document.querySelector('#task-folder')
-        taskFolder.innerHTML = `<option value="inbox">Inbox</option>`
         myProjects.forEach((item => {
             if(!taskFolder.innerHTML.includes(item.title)) {
                 taskFolder.insertAdjacentHTML('beforeend', `
@@ -201,40 +199,6 @@ class UI {
         }
     }
 
-    showInboxTask() {
-        heading.textContent = 'Inbox';
-        taskList.innerHTML = ''
-        myProjects.forEach((project)=> {
-            let task = project.task;
-            console.log(task)
-            task.forEach((item)=>{
-                if(!item.completed) {
-                    let li = document.createElement('li');
-                        li.setAttribute('class', '')
-                        li.innerHTML = 
-                        `<div class="task-detail">
-                            <div class="task">
-                                <i class="task-status fa-regular fa-circle"></i>
-                                <div class="task-name">${item.todo}</div>
-                            </div>
-                            <div class="icon-control">
-                                <i id="${item.todo}" class="fa-solid fa-caret-left"></i>
-                                <i id="${itemtodo}" class="remove-task fa-solid fa-xmark"></i>
-                            </div>
-                            </div>
-
-                            <div id="${item.todo}" class="description-detail hidden">
-                                <div class="description">${item.description}</div>
-                                <div class="date">Due date: ${item.date}
-                            </div>
-                        </div>`    
-                    taskList.appendChild(li) 
-                }
-            })
-
-        })
-    }
-
 }
 
 class Projects {
@@ -268,12 +232,8 @@ class Tasks {
         task.description = taskDes;
         task.completed = false;
         task.date = taskDate
-        project = myProjects.find(item => item.title === folder) //return the name of project
+        project = myProjects.find(item => item.title === folder) 
         project.task.push(task)
-
-        //if task.completed = false => inbox.push(task).
-        //if click on inbox => heading.textContent = inbox
-        //heading.textContent === inbox => li = content in inbox array
         if(heading.textContent === folder) {
             ui.addnewTask(task)
         }
