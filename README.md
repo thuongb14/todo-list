@@ -1,7 +1,7 @@
 # todo-list
 
 ## Demo
-https://thuongb14.github.io/todo-list/
+https://fascinating-cucurucho-064352.netlify.app/
 
 ## Preview
 <img src="https://i.imgur.com/vz6pJwX.png">
